@@ -1,3 +1,5 @@
+//pure backend part, run in VS Code
+
 const admin = require("firebase-admin");
 const serviceAccount = require("./serviceAccountKey.json");
 
@@ -98,4 +100,5 @@ cron.schedule("* * * * *", async () => {
             console.log("Reminder Triggered:", reminder.task);
         }
     });
+
 });
