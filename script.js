@@ -639,18 +639,9 @@ document.addEventListener("DOMContentLoaded", displayMedicines);
 document.addEventListener("DOMContentLoaded", displayReminders);
 document.addEventListener("DOMContentLoaded", displayRecords);
 /* ================= AUTH ================= */
+/* ================= AUTH ================= */
 
-function showSignup() {
-    document.getElementById("signupBox").style.display = "block";
-    document.getElementById("loginBox").style.display = "none";
-}
-
-function showLogin() {
-    document.getElementById("signupBox").style.display = "none";
-    document.getElementById("loginBox").style.display = "block";
-}
-
-/* SIGNUP */
+// SIGNUP
 function signup() {
     const user = {
         name: document.getElementById("name").value,
@@ -659,19 +650,30 @@ function signup() {
         role: document.getElementById("role").value
     };
 
+    if (!user.name || !user.phone || !user.pin) {
+        alert("Please fill all fields");
+        return;
+    }
+
     localStorage.setItem("user", JSON.stringify(user));
-    alert("Account created!");
+
+    alert("Account created successfully!");
     showLogin();
 }
 
-/* LOGIN */
-function loginPhone() {
+// LOGIN
+function login() {
     const phone = document.getElementById("loginPhone").value;
     const pin = document.getElementById("loginPin").value;
 
     const user = JSON.parse(localStorage.getItem("user"));
 
-    if (user && phone === user.phone && pin === user.pin) {
+    if (!user) {
+        alert("No account found. Please sign up.");
+        return;
+    }
+
+    if (phone === user.phone && pin === user.pin) {
 
         localStorage.setItem("loggedIn", "true");
 
@@ -684,14 +686,6 @@ function loginPhone() {
 
     } else {
         alert("Invalid phone or PIN");
-    }
-}
-
-/* CHECK LOGIN */
-function checkAuth() {
-    const isLoggedIn = localStorage.getItem("loggedIn");
-    if (!isLoggedIn) {
-        window.location.href = "auth.html";
     }
 }
 
