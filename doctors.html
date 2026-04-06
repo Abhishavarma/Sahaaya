@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Doctors | Sahaaya</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div style="max-width:800px;margin:50px auto;">
+    <h2>Available Providers</h2>
+    <div id="list"></div>
+</div>
+
+<script>
+let doctors = JSON.parse(localStorage.getItem("doctors")) || [];
+
+let container = document.getElementById("list");
+
+doctors.forEach(d => {
+    container.innerHTML += `
+        <div style="background:white;padding:15px;margin:10px;border-radius:10px;">
+            <h3>${d.name}</h3>
+            <p>${d.type}</p>
+            <p>${d.specialization}</p>
+            <p>${d.experience} years</p>
+            <p>${d.location}</p>
+            <p>${d.phone}</p>
+        </div>
+    `;
+});
+</script>
+
+</body>
+</html>
