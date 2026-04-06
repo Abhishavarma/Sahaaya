@@ -2,96 +2,211 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Sahaaya Login</title>
-<link rel="stylesheet" href="style.css">
+<title>Sahaaya Auth</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg,#f5f1ea,#e6d8c3);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
 .auth-box {
-    background: white;
-    padding: 40px;
-    border-radius: 20px;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.1);
-    text-align: center;
-    width: 350px;
+    background:white;
+    padding:30px;
+    border-radius:15px;
+    width:350px;
+    text-align:center;
 }
 
-.auth-box input, .auth-box select {
-    width: 90%;
-    padding: 10px;
-    margin: 10px 0;
+input, select {
+    width:90%;
+    padding:10px;
+    margin:8px 0;
 }
 
-.auth-box button {
-    padding: 10px 20px;
-    background: #b08d57;
-    border: none;
-    color: white;
-    cursor: pointer;
+button {
+    padding:10px;
+    width:95%;
+    background:#b08d57;
+    color:white;
+    border:none;
 }
 
-.toggle-btn {
-    margin: 10px;
-    cursor: pointer;
-    color: #8c6b3c;
+.toggle {
+    cursor:pointer;
+    color:#8c6b3c;
 }
 </style>
-
 </head>
 
 <body>
 
-<div class="feature-page">
+<div class="auth-box">
 
-    <div class="auth-box">
+<h2 id="title">Login</h2>
 
-        <h1 id="authTitle">Login</h1>
+<!-- LOGIN -->
+<div id="loginBox">
 
-        <!-- LOGIN -->
-        <div id="loginBox">
+<input id="loginPhone" placeholder="Phone Number">
 
-            <input type="text" id="loginPhone" placeholder="Phone Number">
-            <input type="password" id="loginPin" placeholder="4-digit PIN">
+<div id="pinLogin">
+<input id="loginPin" placeholder="4-digit PIN">
+</div>
 
-            <button onclick="login()">Login</button>
+<div id="passwordLogin" style="display:none;">
+<input id="loginPassword" placeholder="Password">
+</div>
 
-            <p class="toggle-btn" onclick="showSignup()">New user? Sign Up</p>
-        </div>
+<select id="loginRole" onchange="toggleLoginType()">
+<option value="senior">Senior</option>
+<option value="caregiver">Caregiver</option>
+<option value="provider">Provider</option>
+<option value="admin">Admin</option>
+</select>
 
-        <!-- SIGNUP -->
-        <div id="signupBox" style="display:none;">
+<button onclick="login()">Login</button>
 
-            <input type="text" id="name" placeholder="Full Name">
-            <input type="text" id="phone" placeholder="Phone Number">
-            <input type="password" id="pin" placeholder="4-digit PIN">
-
-            <select id="role">
-                <option value="senior">Senior Citizen</option>
-                <option value="caregiver">Caregiver</option>
-            </select>
-
-            <button onclick="signup()">Create Account</button>
-
-            <p class="toggle-btn" onclick="showLogin()">Already have account? Login</p>
-        </div>
-
-    </div>
+<p class="toggle" onclick="showSignup()">Create Account</p>
 
 </div>
 
-<script src="script.js"></script>
+<!-- SIGNUP -->
+<div id="signupBox" style="display:none;">
+
+<input id="name" placeholder="Full Name">
+<input id="phone" placeholder="Phone Number">
+
+<select id="role" onchange="toggleSignupType()">
+<option value="senior">Senior</option>
+<option value="caregiver">Caregiver</option>
+<option value="provider">Provider</option>
+<option value="admin">Admin</option>
+</select>
+
+<div id="pinSignup">
+<input id="pin" placeholder="4-digit PIN">
+</div>
+
+<div id="passwordSignup" style="display:none;">
+<input id="password" placeholder="Password">
+</div>
+
+<button onclick="sendOTP()">Send OTP</button>
+
+<div id="otpBox" style="display:none;">
+<input id="otpInput" placeholder="Enter OTP">
+<button onclick="verifyOTP()">Verify OTP</button>
+</div>
+
+<p class="toggle" onclick="showLogin()">Already have account?</p>
+
+</div>
+
+</div>
 
 <script>
-function showSignup() {
-    document.getElementById("signupBox").style.display = "block";
-    document.getElementById("loginBox").style.display = "none";
-    document.getElementById("authTitle").innerText = "Sign Up";
+
+let generatedOTP = "";
+
+/* TOGGLE LOGIN TYPE */
+function toggleLoginType(){
+    let role = loginRole.value;
+
+    if(role === "senior" || role === "caregiver"){
+        pinLogin.style.display = "block";
+        passwordLogin.style.display = "none";
+    } else {
+        pinLogin.style.display = "none";
+        passwordLogin.style.display = "block";
+    }
 }
 
-function showLogin() {
-    document.getElementById("signupBox").style.display = "none";
-    document.getElementById("loginBox").style.display = "block";
-    document.getElementById("authTitle").innerText = "Login";
+/* TOGGLE SIGNUP TYPE */
+function toggleSignupType(){
+    let role = document.getElementById("role").value;
+
+    if(role === "senior" || role === "caregiver"){
+        pinSignup.style.display = "block";
+        passwordSignup.style.display = "none";
+    } else {
+        pinSignup.style.display = "none";
+        passwordSignup.style.display = "block";
+    }
 }
+
+/* SHOW SIGNUP */
+function showSignup(){
+    loginBox.style.display="none";
+    signupBox.style.display="block";
+    title.innerText="Sign Up";
+}
+
+/* SHOW LOGIN */
+function showLogin(){
+    loginBox.style.display="block";
+    signupBox.style.display="none";
+    title.innerText="Login";
+}
+
+/* FAKE OTP */
+function sendOTP(){
+    generatedOTP = Math.floor(1000 + Math.random()*9000);
+    alert("OTP sent: " + generatedOTP);  // demo purpose
+    otpBox.style.display = "block";
+}
+
+/* VERIFY OTP */
+function verifyOTP(){
+    let entered = otpInput.value;
+
+    if(entered == generatedOTP){
+        let user = {
+            name: name.value,
+            phone: phone.value,
+            role: role.value,
+            pin: pin.value,
+            password: password.value
+        };
+
+        let users = JSON.parse(localStorage.getItem("users")) || [];
+        users.push(user);
+        localStorage.setItem("users", JSON.stringify(users));
+
+        alert("Signup successful!");
+        showLogin();
+    } else {
+        alert("Wrong OTP");
+    }
+}
+
+/* LOGIN */
+function login(){
+    let users = JSON.parse(localStorage.getItem("users")) || [];
+
+    let found = users.find(u =>
+        u.phone == loginPhone.value &&
+        (
+            (u.pin && u.pin == loginPin.value) ||
+            (u.password && u.password == loginPassword.value)
+        )
+    );
+
+    if(found){
+        localStorage.setItem("loggedIn", true);
+        localStorage.setItem("role", found.role);
+        window.location.href="index.html";
+    } else {
+        alert("Invalid credentials");
+    }
+}
+
 </script>
 
 </body>
