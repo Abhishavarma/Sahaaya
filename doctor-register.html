@@ -1,46 +1,165 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Doctor Registration | Sahaaya</title>
-<link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Register Healthcare Provider | Sahaaya</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #f5f1ea, #e9dfd0);
+}
+
+/* HERO HEADER */
+.hero {
+    text-align: center;
+    padding: 60px 20px 30px;
+}
+
+.hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    font-size: 18px;
+    color: #555;
+}
+
+/* FORM CONTAINER */
+.container {
+    max-width: 700px;
+    margin: 30px auto;
+    background: white;
+    padding: 35px;
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+/* INPUTS */
+input, select {
+    width: 100%;
+    padding: 14px;
+    margin: 12px 0;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+/* FILE INPUT */
+.file-upload {
+    background: #f9f9f9;
+    border: 2px dashed #bbb;
+    padding: 15px;
+    text-align: center;
+    border-radius: 10px;
+}
+
+/* BUTTON */
+button {
+    width: 100%;
+    padding: 14px;
+    margin-top: 15px;
+    background: #b08b57;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #8a6c45;
+}
+
+/* SUCCESS MESSAGE */
+.success {
+    display: none;
+    text-align: center;
+    margin-top: 20px;
+    padding: 15px;
+    background: #e6f4ea;
+    border-radius: 10px;
+    color: #2e7d32;
+    font-weight: 500;
+}
+</style>
 </head>
 
 <body>
 
-<div style="max-width:600px;margin:50px auto;">
-    <h2>Doctor / Hospital Registration</h2>
+<!-- HEADER -->
+<div class="hero">
+    <h1>Join Sahaaya Network</h1>
+    <p>Register as a verified doctor, hospital, or caregiver to provide services</p>
+</div>
 
-    <input id="name" placeholder="Name"><br><br>
-    <input id="specialization" placeholder="Specialization"><br><br>
-    <input id="experience" placeholder="Experience"><br><br>
-    <input id="location" placeholder="Location"><br><br>
-    <input id="phone" placeholder="Phone"><br><br>
+<!-- FORM -->
+<div class="container">
+
+    <input id="name" placeholder="Doctor / Hospital Name">
+    <input id="specialization" placeholder="Specialization (Cardiology, General...)">
+    <input id="experience" placeholder="Experience (years)">
+    <input id="location" placeholder="City / Location">
+    <input id="phone" placeholder="Phone Number">
 
     <select id="type">
+        <option value="">Select Type</option>
         <option>Doctor</option>
         <option>Hospital</option>
-    </select><br><br>
+        <option>Clinic</option>
+    </select>
+
+    <!-- LICENSE UPLOAD -->
+    <div class="file-upload">
+        <label>Upload Valid License / Certificate</label><br><br>
+        <input type="file" id="license">
+    </div>
 
     <button onclick="registerDoctor()">Register</button>
+
+    <!-- SUCCESS MESSAGE -->
+    <div id="successMsg" class="success">
+        ✅ Your documents have been uploaded successfully.<br><br>
+        You will receive confirmation once your documents are reviewed and verified.
+    </div>
+
 </div>
 
 <script>
 function registerDoctor() {
+
+    // basic validation
+    if (!name.value || !phone.value || !type.value) {
+        alert("Please fill all required fields");
+        return;
+    }
+
     let doctor = {
         name: name.value,
         specialization: specialization.value,
         experience: experience.value,
         location: location.value,
         phone: phone.value,
-        type: type.value
+        type: type.value,
+        license: license.value   // just storing name (demo)
     };
 
     let list = JSON.parse(localStorage.getItem("doctors")) || [];
     list.push(doctor);
     localStorage.setItem("doctors", JSON.stringify(list));
 
-    alert("Registered!");
-    window.location.href = "doctors.html";
+    // show success message instead of redirect
+    document.getElementById("successMsg").style.display = "block";
+
+    // clear form
+    document.querySelectorAll("input").forEach(i => i.value = "");
 }
 </script>
 
