@@ -1,10 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Register Healthcare Provider | Sahaaya</title>
+<title>Sahaaya Provider Registration</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
@@ -12,102 +9,84 @@
 body {
     margin: 0;
     font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #f5f1ea, #e9dfd0);
+    background: linear-gradient(135deg,#f5f1ea,#e6d8c3);
 }
 
-/* HERO HEADER */
 .hero {
     text-align: center;
-    padding: 60px 20px 30px;
+    padding: 60px 20px;
 }
 
 .hero h1 {
     font-family: 'Playfair Display', serif;
     font-size: 42px;
-    margin-bottom: 10px;
 }
 
-.hero p {
-    font-size: 18px;
-    color: #555;
-}
-
-/* FORM CONTAINER */
 .container {
     max-width: 700px;
-    margin: 30px auto;
+    margin: auto;
     background: white;
-    padding: 35px;
-    border-radius: 18px;
+    padding: 30px;
+    border-radius: 15px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
-/* INPUTS */
 input, select {
     width: 100%;
     padding: 14px;
-    margin: 12px 0;
-    border-radius: 10px;
+    margin: 10px 0;
+    border-radius: 8px;
     border: 1px solid #ccc;
-    font-size: 14px;
 }
 
-/* FILE INPUT */
-.file-upload {
-    background: #f9f9f9;
-    border: 2px dashed #bbb;
+.file-box {
+    border: 2px dashed #aaa;
     padding: 15px;
     text-align: center;
     border-radius: 10px;
 }
 
-/* BUTTON */
 button {
     width: 100%;
     padding: 14px;
-    margin-top: 15px;
     background: #b08b57;
     color: white;
     border: none;
-    border-radius: 10px;
+    border-radius: 8px;
     font-size: 16px;
-    cursor: pointer;
 }
 
-button:hover {
-    background: #8a6c45;
-}
-
-/* SUCCESS MESSAGE */
 .success {
     display: none;
-    text-align: center;
     margin-top: 20px;
-    padding: 15px;
     background: #e6f4ea;
+    padding: 15px;
     border-radius: 10px;
-    color: #2e7d32;
-    font-weight: 500;
+    text-align: center;
+}
+
+.preview {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #555;
 }
 </style>
 </head>
 
 <body>
 
-<!-- HEADER -->
 <div class="hero">
     <h1>Join Sahaaya Network</h1>
-    <p>Register as a verified doctor, hospital, or caregiver to provide services</p>
+    <p>Register as a verified healthcare provider</p>
 </div>
 
-<!-- FORM -->
 <div class="container">
 
-    <input id="name" placeholder="Doctor / Hospital Name">
-    <input id="specialization" placeholder="Specialization (Cardiology, General...)">
-    <input id="experience" placeholder="Experience (years)">
-    <input id="location" placeholder="City / Location">
-    <input id="phone" placeholder="Phone Number">
+    <input id="name" placeholder="Name">
+    <input id="specialization" placeholder="Specialization">
+    <input id="experience" placeholder="Experience">
+    <input id="location" placeholder="Location">
+    <input id="phone" placeholder="Phone">
 
     <select id="type">
         <option value="">Select Type</option>
@@ -116,30 +95,31 @@ button:hover {
         <option>Clinic</option>
     </select>
 
-    <!-- LICENSE UPLOAD -->
-    <div class="file-upload">
-        <label>Upload Valid License / Certificate</label><br><br>
-        <input type="file" id="license">
+    <div class="file-box">
+        Upload License
+        <input type="file" id="license" onchange="previewFile()">
+        <div id="filePreview" class="preview"></div>
     </div>
 
     <button onclick="registerDoctor()">Register</button>
 
-    <!-- SUCCESS MESSAGE -->
     <div id="successMsg" class="success">
-        ✅ Your documents have been uploaded successfully.<br><br>
-        You will receive confirmation once your documents are reviewed and verified.
+        ✅ Documents uploaded successfully<br><br>
+        Your profile is under review.<br>
+        You will be notified once verified.
     </div>
 
 </div>
 
 <script>
-function registerDoctor() {
-
-    // basic validation
-    if (!name.value || !phone.value || !type.value) {
-        alert("Please fill all required fields");
-        return;
+function previewFile() {
+    const file = document.getElementById("license").files[0];
+    if (file) {
+        document.getElementById("filePreview").innerText = "Uploaded: " + file.name;
     }
+}
+
+function registerDoctor() {
 
     let doctor = {
         name: name.value,
@@ -148,18 +128,14 @@ function registerDoctor() {
         location: location.value,
         phone: phone.value,
         type: type.value,
-        license: license.value   // just storing name (demo)
+        status: "Pending"
     };
 
     let list = JSON.parse(localStorage.getItem("doctors")) || [];
     list.push(doctor);
     localStorage.setItem("doctors", JSON.stringify(list));
 
-    // show success message instead of redirect
     document.getElementById("successMsg").style.display = "block";
-
-    // clear form
-    document.querySelectorAll("input").forEach(i => i.value = "");
 }
 </script>
 
