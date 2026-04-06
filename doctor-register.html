@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Doctor Registration | Sahaaya</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div style="max-width:600px;margin:50px auto;">
+    <h2>Doctor / Hospital Registration</h2>
+
+    <input id="name" placeholder="Name"><br><br>
+    <input id="specialization" placeholder="Specialization"><br><br>
+    <input id="experience" placeholder="Experience"><br><br>
+    <input id="location" placeholder="Location"><br><br>
+    <input id="phone" placeholder="Phone"><br><br>
+
+    <select id="type">
+        <option>Doctor</option>
+        <option>Hospital</option>
+    </select><br><br>
+
+    <button onclick="registerDoctor()">Register</button>
+</div>
+
+<script>
+function registerDoctor() {
+    let doctor = {
+        name: name.value,
+        specialization: specialization.value,
+        experience: experience.value,
+        location: location.value,
+        phone: phone.value,
+        type: type.value
+    };
+
+    let list = JSON.parse(localStorage.getItem("doctors")) || [];
+    list.push(doctor);
+    localStorage.setItem("doctors", JSON.stringify(list));
+
+    alert("Registered!");
+    window.location.href = "doctors.html";
+}
+</script>
+
+</body>
+</html>
