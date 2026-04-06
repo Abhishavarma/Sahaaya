@@ -5,37 +5,141 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sahaaya – Care With Dignity</title>
 
-<link rel="stylesheet" href="style.css">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <style>
-#listeningIndicator {
-    display: none;
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background: red;
-    animation: pulse 1s infinite;
+
+/* GLOBAL */
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: #f5f1ea;
 }
-@keyframes pulse {
-    0% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.5); opacity: 0.5; }
-    100% { transform: scale(1); opacity: 1; }
+
+/* NAVBAR */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+    background: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo-container img {
+    width: 40px;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+button {
+    cursor: pointer;
+}
+
+/* HERO */
+.hero {
+    height: 80vh;
+    background: url('https://images.unsplash.com/photo-1516307365426-bea591f05011?q=80&w=1600') center/cover;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+}
+
+.hero-content {
+    position: relative;
+    text-align: center;
+    color: white;
+}
+
+.hero h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+}
+
+.hero p {
+    margin: 15px 0;
+}
+
+.cta-btn {
+    padding: 12px 25px;
+    background: #b08b57;
+    border: none;
+    color: white;
+    border-radius: 8px;
+}
+
+/* SERVICES */
+.services {
+    padding: 50px 40px;
+}
+
+.services h2 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 25px;
+}
+
+.card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.card h3 {
+    padding: 15px;
+}
+
+/* FOOTER */
+footer {
+    text-align: center;
+    padding: 20px;
+    background: white;
+    margin-top: 30px;
+}
+
 </style>
 </head>
 
 <body>
 
-<!-- LOGIN CHECK -->
 <script>
 const isLoggedIn = localStorage.getItem("loggedIn");
-if (!isLoggedIn) {
-    window.location.href = "auth.html";
-}
+if (!isLoggedIn) window.location.href = "auth.html";
 </script>
 
 <header class="navbar">
@@ -45,127 +149,89 @@ if (!isLoggedIn) {
     </div>
 
     <div class="nav-right">
-        <div class="language-container">
-            <label>Language:</label>
-            <select id="languageSwitcher">
-                <option value="en">English</option>
-                <option value="hi">हिन्दी</option>
-                <option value="ta">தமிழ்</option>
-                <option value="te">తెలుగు</option>
-            </select>
-        </div>
-
-        <button id="modeToggle">🌙</button>
+        <span id="userInfo"></span>
+        <button onclick="logout()">Logout</button>
     </div>
 </header>
 
-<!-- HERO -->
 <section class="hero">
     <div class="hero-overlay"></div>
-
     <div class="hero-content">
-        <h2 id="heroTitle">Care. Comfort. Dignity.</h2>
-        <p id="heroDesc">
-            Empowering senior citizens with safe, smart and compassionate care solutions.
-        </p>
-
-        <button class="cta-btn" id="getStartedBtn">Get Started</button>
+        <h2>Care. Comfort. Dignity.</h2>
+        <p>Empowering senior citizens with safe, smart healthcare solutions.</p>
+        <button class="cta-btn">Explore Services</button>
     </div>
 </section>
 
-<!-- SERVICES -->
 <section class="services">
-    <h2 id="servicesTitle">Our Services</h2>
+    <h2>Care & Support Services</h2>
 
     <div class="services-grid">
 
-        <a href="medicine.html" class="service-link">
+        <a href="medicine.html">
             <div class="card">
                 <img src="https://images.unsplash.com/photo-1587854692152-cbe660dbde88?q=80&w=1200">
                 <h3>Medicine Management</h3>
             </div>
         </a>
 
-        <a href="reminders.html" class="service-link">
+        <a href="reminders.html">
             <div class="card">
                 <img src="https://images.unsplash.com/photo-1506784365847-bbad939e9335?q=80&w=1200">
                 <h3>Smart Reminders</h3>
             </div>
         </a>
 
-        <a href="records.html" class="service-link">
+        <a href="records.html">
             <div class="card">
                 <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=1200">
                 <h3>Health Records</h3>
             </div>
         </a>
 
-        <a href="emergency.html" class="service-link">
+        <a href="emergency.html">
             <div class="card">
                 <img src="https://images.unsplash.com/photo-1579154204601-01588f351e67?q=80&w=1200">
                 <h3>Emergency Support</h3>
             </div>
         </a>
 
-        <!-- NEW FEATURE -->
-        <a href="doctor-register.html" class="service-link">
+        <a href="providers.html">
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1516549655169-df83a0774514?q=80&w=1200">
+                <h3>Find Care</h3>
+            </div>
+        </a>
+
+        <a href="doctor-register.html">
             <div class="card">
                 <img src="https://images.unsplash.com/photo-1584515933487-779824d29309?q=80&w=1200">
-                <h3>Healthcare Providers</h3>
+                <h3>Join as Provider</h3>
             </div>
         </a>
 
     </div>
-
-    <div id="listeningIndicator"></div>
 </section>
 
 <footer>
-    © 2026 Sahaaya | Designed for Independence & Safety
+    © 2026 Sahaaya | Built with care ❤️
 </footer>
 
-<!-- VOICE SCRIPT -->
 <script>
-const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-const btn = document.getElementById("getStartedBtn");
-const indicator = document.getElementById("listeningIndicator");
 
-btn.addEventListener("click", () => {
+/* USER INFO */
+let role = localStorage.getItem("role");
+let user = JSON.parse(localStorage.getItem("users") || "[]");
 
-    if (!SpeechRecognition) {
-        alert("Voice not supported");
-        return;
-    }
+document.getElementById("userInfo").innerText = role ? "Logged in as: " + role : "";
 
-    const recognition = new SpeechRecognition();
-    recognition.lang = "en-US";
+/* LOGOUT */
+function logout(){
+    localStorage.clear();
+    window.location.href = "auth.html";
+}
 
-    indicator.style.display = "block";
-
-    recognition.start();
-
-    recognition.onresult = (event) => {
-        indicator.style.display = "none";
-
-        const text = event.results[0][0].transcript.toLowerCase();
-
-        if (text.includes("reminder")) window.location.href = "reminders.html";
-        else if (text.includes("medicine")) window.location.href = "medicine.html";
-        else if (text.includes("record")) window.location.href = "records.html";
-        else if (text.includes("emergency")) window.location.href = "emergency.html";
-        else if (text.includes("doctor") || text.includes("hospital"))
-            window.location.href = "doctor-register.html";
-        else alert("Command not recognized");
-    };
-
-    recognition.onerror = () => {
-        indicator.style.display = "none";
-    };
-});
 </script>
-
-<script src="script.js"></script>
-<script src="voiceAssistant.js"></script>
 
 </body>
 </html>
